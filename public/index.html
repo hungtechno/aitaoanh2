@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Photo Harmonizer | 3D Overlay Fix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>HARMONIZER<small>AI</small></span>
+        </div>
+        <div class="nav-links">
+            <span class="status-badge"><i class="fa-solid fa-circle"></i> Service Online</span>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <!-- Vùng chính: Canvas & Preview -->
+        <section class="main-panel glass">
+            <div class="panel-header">
+                <div class="step-indicator">BƯỚC 1: UPLOAD & ĐÁNH DẤU VẬT THỂ 3D</div>
+                <div class="canvas-tools hidden" id="canvas-tools">
+                    <button class="tool-btn" id="clear-btn" title="Xoá Mask"><i class="fa-solid fa-eraser"></i></button>
+                    <div class="brush-slider">
+                        <i class="fa-solid fa-paint-brush"></i>
+                        <input type="range" id="brush-size" min="5" max="100" value="30">
+                        <span id="brush-val">30px</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workspace">
+                <div id="drop-zone" class="drop-zone">
+                    <div class="drop-content">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <h3>Kéo thả ảnh vào đây</h3>
+                        <p>Hỗ trợ: PNG, JPG (Max 5MB)</p>
+                        <button class="btn btn-glow">Chọn từ máy tính</button>
+                        <input type="file" id="file-input" accept="image/*" hidden>
+                    </div>
+                </div>
+
+                <div id="editor-container" class="hidden">
+                    <div class="canvas-wrapper">
+                        <img id="source-img" alt="Source">
+                        <canvas id="mask-canvas"></canvas>
+                        <div id="loader" class="loader hidden">
+                            <div class="scanner"></div>
+                            <div class="loading-info">
+                                <span class="spinner"></span>
+                                <p id="loader-text">Đang phân tích bề mặt...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer hidden" id="action-bar">
+                <button id="render-btn" class="btn btn-primary btn-large">
+                    <i class="fa-solid fa-bolt"></i> START AI HARMONIZE (AUTO)
+                </button>
+            </div>
+        </section>
+
+        <!-- Sidebar: Chat & Refinement -->
+        <aside class="side-panel glass chat-locked" id="chat-panel">
+            <div class="chat-header">
+                <h3><i class="fa-solid fa-comment-dots"></i> TINH CHỈNH CHI TIẾT</h3>
+                <p>Mở sau khi hoàn tất Auto-fix</p>
+            </div>
+
+            <div class="chat-messages" id="chat-history">
+                <div class="message bot">
+                    <div class="msg-content">
+                        Chào bạn! Hãy hoàn thành Bước 1, sau đó tôi sẽ giúp bạn tinh chỉnh ánh sáng, bóng đổ hoặc vật liệu qua hội thoại này.
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Nhập yêu cầu tinh chỉnh... (vd: Thêm bóng đổ mềm hơn)" disabled>
+                <button id="send-btn" disabled><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+
+            <div class="panel-actions hidden" id="download-area">
+                <button id="download-btn" class="btn btn-success btn-full">
+                    <i class="fa-solid fa-download"></i> DOWNLOAD KẾT QUẢ HD
+                </button>
+                <button id="reset-btn" class="btn btn-secondary btn-full">
+                    <i class="fa-solid fa-rotate-left"></i> LÀM LẠI TỪ ĐẦU
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
