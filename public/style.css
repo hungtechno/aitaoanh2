@@ -136,24 +136,50 @@ body {
     gap: 1rem;
 }
 
-.brush-slider {
+.tool-group {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
+    gap: 10px;
+    font-size: 0.7rem;
     color: var(--text-dim);
+    background: rgba(255,255,255,0.03);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.tool-group input[type="range"] {
+    width: 80px;
+    accent-color: var(--accent-blue);
+    cursor: pointer;
+}
+
+.tool-group span {
+    min-width: 35px;
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--accent-blue);
 }
 
 .tool-btn {
-    background: none;
-    border: none;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-color);
     color: var(--text-dim);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    font-size: 1.1rem;
     transition: var(--transition);
 }
 
-.tool-btn:hover { color: var(--text-bright); }
+.tool-btn:hover { 
+    color: var(--text-bright); 
+    background: rgba(255,255,255,0.1);
+    border-color: var(--accent-blue);
+}
 
 .workspace {
     flex: 1;

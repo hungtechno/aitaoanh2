@@ -28,10 +28,20 @@
                 <div class="step-indicator">BƯỚC 1: UPLOAD & ĐÁNH DẤU VẬT THỂ 3D</div>
                 <div class="canvas-tools hidden" id="canvas-tools">
                     <button class="tool-btn" id="clear-btn" title="Xoá Mask"><i class="fa-solid fa-eraser"></i></button>
-                    <div class="brush-slider">
+                    <div class="tool-group">
                         <i class="fa-solid fa-paint-brush"></i>
                         <input type="range" id="brush-size" min="5" max="100" value="30">
                         <span id="brush-val">30px</span>
+                    </div>
+                    <div class="tool-group" title="Độ mượt của cạnh (Khử răng cưa)">
+                        <i class="fa-solid fa-wand-magic"></i>
+                        <input type="range" id="mask-blur" min="0" max="30" value="10">
+                        <span id="blur-val">10px</span>
+                    </div>
+                    <div class="tool-group" title="Độ biến đổi của AI">
+                        <i class="fa-solid fa-bolt-lightning"></i>
+                        <input type="range" id="ai-strength" min="1" max="100" value="75">
+                        <span id="strength-val">0.75</span>
                     </div>
                 </div>
             </div>

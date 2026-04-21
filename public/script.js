@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const actionBar = document.getElementById('action-bar');
     const renderBtn = document.getElementById('render-btn');
     
+    // Nâng cấp: Các biến cho Blur và Strength
+    const maskBlurInput = document.getElementById('mask-blur');
+    const blurVal = document.getElementById('blur-val');
+    const aiStrengthInput = document.getElementById('ai-strength');
+    const strengthVal = document.getElementById('strength-val');
+    
     const chatPanel = document.getElementById('chat-panel');
     const chatHistory = document.getElementById('chat-history');
     const userInput = document.getElementById('user-input');
@@ -87,6 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     brushSizeInput.addEventListener('input', (e) => {
         brushVal.textContent = e.target.value + 'px';
+    });
+
+    maskBlurInput.addEventListener('input', (e) => {
+        blurVal.textContent = e.target.value + 'px';
+    });
+
+    aiStrengthInput.addEventListener('input', (e) => {
+        strengthVal.textContent = (e.target.value / 100).toFixed(2);
     });
 
     maskCanvas.addEventListener('mousedown', startDrawing);
@@ -175,6 +189,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return tempCanvas.toDataURL('image/png');
     }
 
+    function getProcessedMaskBase64() {
+        const rawMask = getMaskBase64();
+        const blurSize = parseInt(maskBlurInput.value);
+        
+        if (blurSize === 0) return rawMask;
+
+        // Tạo canvas phụ để làm mờ
+        const blurCanvas = document.createElement('canvas');
+        blurCanvas.width = sourceImg.naturalWidth;
+        blurCanvas.height = sourceImg.naturalHeight;
+        const bCtx = blurCanvas.getContext('2d');
+
+        // Áp dụng bộ lọc Blur (Khử răng cưa cho cạnh mask)
+        bCtx.filter = `blur(${blurSize}px)`;
+        
+        const tempImg = new Image();
+        return new Promise((resolve) => {
+            tempImg.onload = () => {
+                bCtx.drawImage(tempImg, 0, 0);
+                resolve(blurCanvas.toDataURL('image/png'));
+            };
+            tempImg.src = rawMask;
+        });
+    }
+
     // --- 4. GỌI API HARMONIZE (GIAI ĐOẠN 1) ---
     renderBtn.addEventListener('click', async () => {
         if (!hasDrawn) {
@@ -182,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const maskBase64 = getMaskBase64();
+        const maskBase64 = await getProcessedMaskBase64();
         await callHarmonizeAPI(originalImageBase64, maskBase64, null, "Giai đoạn 1: Đang Auto-Harmonize...");
     });
 
@@ -197,8 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     image: imgBase64,
                     mask: maskBase64,
                     prompt: textPrompt,
-                    strength: 0.75,
-                    num_steps: 20
+                    strength: aiStrengthInput.value / 100,
+                    num_steps: 25
                 })
             });
 
@@ -259,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addMessage('user', msg);
         userInput.value = '';
 
-        const maskBase64 = getMaskBase64();
+        const maskBase64 = await getProcessedMaskBase64();
         // Gửi kèm prompt mới để tinh chỉnh
         await callHarmonizeAPI(originalImageBase64, maskBase64, msg, "Đang tinh chỉnh theo yêu cầu...");
     }

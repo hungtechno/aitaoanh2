@@ -56,7 +56,7 @@ app.post('/api/harmonize', async (req, res, next) => {
         const url = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/${model}`;
 
         const payload = {
-            prompt: prompt || "professional product photography, seamless integration, high quality, physically based rendering, cinematic lighting, soft shadows, sharp edges, 8k",
+            prompt: prompt || "photorealistic architectural visualization, perfect blending, seamless integration, natural soft lighting, physically based materials, high detail, 8k resolution, cinematic atmosphere, global illumination",
             image: base64ToUint8Array(image),
             mask: base64ToUint8Array(mask),
             strength: parseFloat(strength),
